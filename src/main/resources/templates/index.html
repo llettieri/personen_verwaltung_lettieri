@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+    <link rel="stylesheet" th:href="@{/bootstrap-5.1.3-dist/css/bootstrap.min.css}">
+</head>
+<body style="background: #d7d8da">
+<div class="container">
+    <h1>Personenverwaltung</h1>
+    <h2>Übersicht</h2>
+    <table class="table table-responsive-md">
+        <thead>
+        <tr>
+            <th scope="col">Vorname</th>
+            <th scope="col">Nachname</th>
+            <th scope="col">E-Mail</th>
+            <th scope="col">Geschlecht</th>
+            <th scope="col">Geburtstag</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="person : ${people}">
+            <!--/*@thymesVar id="person" type="ch.bbw.personen_verwaltung.model.Person"*/-->
+            <td th:text="${person.vorname}"></td>
+            <td th:text="${person.nachname}"></td>
+            <td th:text="${person.email}"></td>
+            <td th:text="${person.geschlecht}"></td>
+            <td th:text="${person.geburtsdatum}"></td>
+            <td>
+                <a th:href="@{personForm(personId=${person.id})}">
+                    <button class="btn btn-primary" type="submit">Bearbeiten</button>
+                </a>
+            </td>
+            <td>
+                <button class="btn btn-danger" type="button" data-bs-toggle="modal"
+                        data-bs-target="#delete-confirmation">Löschen
+                </button>
+            </td>
+            <!-- Modal -->
+            <div class="modal fade" id="delete-confirmation" data-bs-backdrop="static" data-bs-keyboard="false"
+                 tabindex="-1"
+                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Lösch Bestätigung </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Bist du dir sicher, dass du die Person löschen möchtest?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nein</button>
+                            <a th:href="@{deletePerson(personId=${person.id})}">
+                                <button type="button" class="btn btn-danger">Ja</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/personForm">
+        <button class="btn btn-outline-success">Person Hinzufügen</button>
+    </a>
+</div>
+<script th:src="@{/bootstrap-5.1.3-dist/js/bootstrap.min.js}"></script>
+</body>
+</html>
